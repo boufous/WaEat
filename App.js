@@ -6,23 +6,41 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { StatusBar, Image, Platform, StyleSheet, View, Text } from 'react-native';
 import ScanScreen from './Components/BarCode';
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGhost } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faGhost)
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
+
+
       <View style={styles.container}>
-        <ScanScreen />
+        <StatusBar
+          style={styles.statusBar}
+          backgroundColor="#ffffff"
+          barStyle="dark-content"
+        />
+
+        <View style={styles.header}>
+          <Image style={styles.settinglogo}
+            source={require('./resources/logos/logorow.png')}
+            style={{ width: 200, height: 60 }}
+          />
+        </View>
+        <View style={styles.body}><ScanScreen /></View>
+        <View style={styles.footer}></View>
+
+
       </View>
+
     );
   }
 }
@@ -30,18 +48,48 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#7EAD17',
+    alignContent: 'center',
+    alignItems:'center'
   },
-  welcome: {
+  
+  header: {
+    fontSize: 20,
+    //height:90,
+    paddingVertical:10,
+    flex:1,
+    
+  
+  },
+  body: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    flex:10
+   
   },
-  instructions: {
+  footer: {
+    fontSize: 20,
     textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    height:90,
+    flex:1    
   },
+  statusBar: {
+    backgroundColor: '#7EAD17',
+    borderBottomColor: '#bbb',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  settinglogo: {
+    paddingRight: 6,
+    paddingTop: 6,
+
+  },
+
+
+  settingIcon: {
+   //flex:2,
+  }
 });
+
+
+
+          //<Icon style={styles.settingIcon} name='search' color='white' size={40} />  
