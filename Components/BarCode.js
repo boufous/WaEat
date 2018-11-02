@@ -4,11 +4,13 @@ import {
   StyleSheet,
   Text, Alert,
   TouchableOpacity,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 import axios from "axios";
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { View } from "native-base";
+import ProductDetails from "./productDetails";
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -32,9 +34,9 @@ class ScanScreen extends Component {
     var isnum = /^\d+$/.test(e.data);
     if (isnum) {
       //  getProductInfo(e.data)(res => this.setState({ product: res.data }));
-      const URL = `https://world.openfoodfacts.org/api/v0/product/${e.data}.json`;
+      // const URL = `https://world.openfoodfacts.org/api/v0/product/${e.data}.json`;
 
-      // const URL = `https://world.openfoodfacts.org/api/v0/product/5052320289240.json`;
+      const URL = `https://world.openfoodfacts.org/api/v0/product/5052320289240.json`;
       axios
         .get(URL)
         .then(res => this.setState({ product: res.data.product, displayproductscore: true }))
@@ -52,6 +54,7 @@ class ScanScreen extends Component {
   }
 
   render() {
+    const { heightw, widthw } = Dimensions.get('window');
 
     let scoreinfo;
     let productimage;
@@ -71,18 +74,9 @@ class ScanScreen extends Component {
       <Text style={styles.buttonText}>Energy(kcal): {Energy}</Text>
       */
       // if we get the product from the DB
-      scoreinfo =
-      <View style={styles.scorePicProductScreen}>
-        <View style={styles.picproduct}>
-          <Image style={{ width: 200, height: 200, marginBottom:10 }} source={{ uri: this.state.product.image_front_thumb_url }} />
-          </View>
-          <View style={styles.viewscore}>
-          <TouchableOpacity style={styles.buttonTouchable} >
-          <Text style={{ color: 'white',fontSize: 20}}> {this.state.product.product_name}</Text>
-            <View style={styles.settingScoreIcon}><Icon name='meh-o' color='#FAAF3C' size={50} /><Text style={{ color: 'white',fontSize: 15, paddingLeft:10}} >Average</Text></View>
-          </TouchableOpacity>
-          </View>
-        </View>
+
+      scoreinfo = <ProductDetails image={this.state.product.image_front_url} name={this.state.product.product_name} />
+
     } else {
       scoreinfo =
         <View style={styles.viewscore}>
@@ -97,17 +91,12 @@ class ScanScreen extends Component {
       return (
         <QRCodeScanner
           onRead={this.onSuccess}
-          /*  topContent={
-           <Text style={styles.centerText}>
-             scan here
-           </Text>
-         }*/
-          containerStyle={styles.borderColor}
+          topViewStyle={{}}
+          cameraStyle={{}}
+          customMarker={<View style={styles.rectangleContainer}>
+            <View style={styles.rectangle} />
+          </View>}
           showMarker={true}
-        // bottomContent={
-        // scoreinfo
-
-        //}
         />
       );
     }
@@ -128,7 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 32,
     color: '#777',
-    borderColor: '#00b894'
+    borderColor: '#7EAD17'
   },
   textBold: {
     fontWeight: '500',
@@ -139,35 +128,38 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   buttonTouchable: {
-    padding: 16,
+    // padding: 16,
   },
   borderColor: {
     alignContent: 'center',
-    borderColor: '#00b894',
+    borderColor: 'red',
     alignContent: 'center',
-    backgroundColor: 'red'
+    backgroundColor: 'white',
+    height: 200,
+    width: 220
+
   },
   viewscore: {
 
-    width: 300,
+    //width: 300,
     height: 100,
-    backgroundColor: 'rgba(52, 52, 52, 0.5)',
+    //backgroundColor: 'rgba(52, 52, 52, 0.5)',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    justifyContent:'center',
-alignItems:'center'
-
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'rgba(52, 52, 52, 0.5)',
   },
   settingScoreIcon: {
-flexDirection:'row',
-   // fontFamily: 'Arial',
+    flexDirection: 'row',
+    // fontFamily: 'Arial',
     //fontSize: 15,
     //color: 'white',
-    justifyContent:'center',
+    justifyContent: 'center',
 
-    alignItems:'center'
+    alignItems: 'center'
 
   },
   picproduct: {
@@ -175,10 +167,26 @@ flexDirection:'row',
 
 
   },
-  scorePicProductScreen : {
+  rectangleContainer: {
+    //  flex: 1,
+    // alignItems: 'center',
+    //justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
+  rectangle: {
+    width: 250,
+    height: 190,
+    borderWidth: 2,
+    borderColor: 'green',
+    backgroundColor: 'transparent',
+    borderRadius: 20
 
-justifyContent:'center',
-alignItems:'center'
+  },
+  scorePicProductScreen: {
 
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    flex: 1
   }
 });
