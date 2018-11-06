@@ -5,21 +5,23 @@ import {
   Text, Alert,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  View
+  
 } from 'react-native';
+import { Button  } from 'native-base';
+
 import axios from "axios";
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { View } from "native-base";
-import ProductDetails from "./productDetails";
-
-import Icon from 'react-native-vector-icons/FontAwesome';
+import ProductScan from "./productScan";
+import  Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee, faSmileBeam } from '@fortawesome/free-solid-svg-icons'
 
 class ScanScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       product: {},
       displayproductscore: false,
@@ -39,8 +41,14 @@ class ScanScreen extends Component {
       const URL = `https://world.openfoodfacts.org/api/v0/product/5052320289240.json`;
       axios
         .get(URL)
-        .then(res => this.setState({ product: res.data.product, displayproductscore: true }))
-        .catch(err => console.log(err))
+        .then(res => {
+          this.setState({ product: res.data.product, displayproductscore: true });
+          const { navigate } = this.props.navigation;
+          navigate('ProductScan', this.state.product);
+          })
+        .catch(err => console.log(err));
+
+
     }
     else {
       Alert.alert(`This product doen't exist in our database`);
@@ -52,44 +60,66 @@ class ScanScreen extends Component {
     val = (val != '' || val != null) ? val : '';
     return val;
   }
-
+  handlePress = () => {
+    Alert.alert('toto');
+   
+  }
   render() {
     const { heightw, widthw } = Dimensions.get('window');
 
     let scoreinfo;
     let productimage;
+    //const { navigate } = this.props.navigation;
+    // if (this.state.displayproductscore) {
+    //   let Sugars = this.valueCheck(this.state.product.nutriments.sugars_100g);
+    //   let Proteins = this.valueCheck(this.state.product.nutriments.proteins_100g);
+    //   let Fiber = this.valueCheck(this.state.product.nutriments.fiber_100g);
+    //   let Sodium = this.valueCheck(this.state.product.nutriments.sodium_100g);
+    //   let Fat = this.valueCheck(this.state.product.nutriments['saturated-fat_100g']);
+    //   let Energy = this.valueCheck(this.state.product.nutriments.energy_100g);
+    //   /*<Text style={styles.buttonText}>Sugars: {Sugars}</Text>
+    //   <Text style={styles.buttonText}>Proteins: {Proteins}</Text>
+    //   <Text style={styles.buttonText}>Fiber: {Fiber}</Text>
+    //   <Text style={styles.buttonText}>Sodium: {Sodium}</Text>
+    //   <Text style={styles.buttonText}>Fat: {Fat}</Text>
+    //   <Text style={styles.buttonText}>Energy(kcal): {Energy}</Text>
+    //   */
+    //   // if we get the product from the DB
 
-    if (this.state.displayproductscore) {
-      let Sugars = this.valueCheck(this.state.product.nutriments.sugars_100g);
-      let Proteins = this.valueCheck(this.state.product.nutriments.proteins_100g);
-      let Fiber = this.valueCheck(this.state.product.nutriments.fiber_100g);
-      let Sodium = this.valueCheck(this.state.product.nutriments.sodium_100g);
-      let Fat = this.valueCheck(this.state.product.nutriments['saturated-fat_100g']);
-      let Energy = this.valueCheck(this.state.product.nutriments.energy_100g);
-      /*<Text style={styles.buttonText}>Sugars: {Sugars}</Text>
-      <Text style={styles.buttonText}>Proteins: {Proteins}</Text>
-      <Text style={styles.buttonText}>Fiber: {Fiber}</Text>
-      <Text style={styles.buttonText}>Sodium: {Sodium}</Text>
-      <Text style={styles.buttonText}>Fat: {Fat}</Text>
-      <Text style={styles.buttonText}>Energy(kcal): {Energy}</Text>
-      */
-      // if we get the product from the DB
+    //   scoreinfo = <ProductScan image={this.state.product.image_front_url} name={this.state.product.product_name} />
 
-      scoreinfo = <ProductDetails image={this.state.product.image_front_url} name={this.state.product.product_name} />
+    // } else {
+    //   scoreinfo =
+    //     <View style={styles.viewscore}>
+    //       <TouchableOpacity style={styles.buttonTouchable}>
+    //         <Text style={styles.buttonText} >No data</Text>
+    //       </TouchableOpacity>
+    //     </View>
+    // }
 
-    } else {
-      scoreinfo =
-        <View style={styles.viewscore}>
-          <TouchableOpacity style={styles.buttonTouchable}>
-            <Text style={styles.buttonText} >No data</Text>
-          </TouchableOpacity>
-        </View>
-    }
+    // PScanf = () => {
+    //   //const { navigate } = this.props.navigation
+    //   //navigate('Home');
+    //   Alert.alert('toto1');
+    //   }
+    // if (this.state.displayCamera) {
+    //   let scanner;
 
-    if (this.state.displayCamera) {
+    //   const startScan = () => {
+        
+    //   };
 
+
+     
       return (
-        <QRCodeScanner
+        // <View  style={styles.footer_we}><Text>footer</Text>
+        // <Button onPress={this.handlePress}>
+        // <Text>Click Me!</Text>
+        // </Button>
+        
+        // </View>
+         
+         <QRCodeScanner
           onRead={this.onSuccess}
           topViewStyle={{}}
           cameraStyle={{}}
@@ -97,15 +127,25 @@ class ScanScreen extends Component {
             <View style={styles.rectangle} />
           </View>}
           showMarker={true}
-        />
+        />  
+      
       );
-    }
-    else {
-      return (
-        <View>{scoreinfo}</View>
-      );
+  //   }
+  //   else 
+  //     return ( <View>
+  //       <QRCodeScanner
+  //         onRead={this.onSuccess}
+  //         topViewStyle={{}}
+  //         cameraStyle={{}}
+  //         customMarker={<View style={styles.rectangleContainer}>
+  //           <View style={styles.rectangle} />
+  //         </View>}
+  //         showMarker={true}
+  //       />
+  //        </View>)
+      
 
-    }
+    
 
   }
 }
@@ -128,7 +168,6 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   buttonTouchable: {
-    // padding: 16,
   },
   borderColor: {
     alignContent: 'center',
@@ -140,10 +179,7 @@ const styles = StyleSheet.create({
 
   },
   viewscore: {
-
-    //width: 300,
     height: 100,
-    //backgroundColor: 'rgba(52, 52, 52, 0.5)',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
@@ -154,23 +190,17 @@ const styles = StyleSheet.create({
   },
   settingScoreIcon: {
     flexDirection: 'row',
-    // fontFamily: 'Arial',
-    //fontSize: 15,
-    //color: 'white',
     justifyContent: 'center',
-
     alignItems: 'center'
-
   },
   picproduct: {
 
-
-
+  },  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10
   },
   rectangleContainer: {
-    //  flex: 1,
-    // alignItems: 'center',
-    //justifyContent: 'center',
     backgroundColor: 'transparent'
   },
   rectangle: {

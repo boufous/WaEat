@@ -14,7 +14,12 @@ import Footer_WE from './Components/footer';
 import Body_WE from './Components/body';
 import Header_WE from './Components/header';
 import Help_WE from './Components/help';
-import { createBottomTabNavigator } from 'react-navigation';
+import ProductScan from './Components/productScan';
+import HomeScreen from './Components/homeScreen';
+import ScanScreen from './Components/barCode';
+import ProductDetails from './Components/productDetails';
+
+import { createStackNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -24,8 +29,6 @@ class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Header_WE />
-        <Body_WE />
       </View>
     );
   }
@@ -38,35 +41,61 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
 
+
 });
 
 
+const ScanNavigator = createStackNavigator({
+  HomeScreen: ScanScreen,
+  ProductDetails: ProductDetails,
+  ProductScan:ProductScan
+},
+  {
+    initialRouteName: 'ProductScan',
+  }
+);
+
+
 export default createMaterialBottomTabNavigator({
+
   Home: {
-    screen: App,
+    screen: ScanNavigator,
     navigationOptions: {
       tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => (<Icon name="ios-home" size={25} color={tintColor} />)
     }
   },
-  Body: { screen: Footer_WE,
+  Body: {
+    screen: Body_WE,
     navigationOptions: {
       tabBarLabel: 'Barcode',
       tabBarIcon: ({ tintColor }) => (<Icon name="ios-barcode" size={25} color={tintColor} />)
-    } },
-    Help: { screen: Help_WE,
-      navigationOptions: {
-        tabBarLabel: 'Help',
-        tabBarIcon: ({ tintColor }) => (<Icon name="ios-help-circle" size={25} color={tintColor} />)
-      } },
+    }
+  },
+  Help: {
+    screen: Help_WE,
+    navigationOptions: {
+      tabBarLabel: 'Help',
+      tabBarIcon: ({ tintColor }) => (<Icon name="ios-help-circle" size={25} color={tintColor} />)
+    }
+  },
+  // ProductScan: {
+  //   screen: ProductDetails,
+  //   navigationOptions: {
+  //     tabBarLabel: 'Product info',
+  //     tabBarIcon: ({ tintColor }) => (<Icon name="ios-help-circle" size={25} color={tintColor} />)
+  //   }
+  // },
 
 }, {
     initialRouteName: 'Home',
     activeColor: '#fff',
     inactiveColor: '##BBBBBB',
-    activeTintColor:'#7EAD17',
-    tintColor:'#BBBBBB',
+    activeTintColor: '#7EAD17',
+    tintColor: '#BBBBBB',
     barStyle: { backgroundColor: '#fff' },
+    swipeEnable: false,
+    animationEnable: false
   });
 
 
