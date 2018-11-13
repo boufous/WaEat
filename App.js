@@ -18,6 +18,9 @@ import ProductScan from './Components/productScan';
 import HomeScreen from './Components/homeScreen';
 import ScanScreen from './Components/barCode';
 import ProductDetails from './Components/productDetails';
+import ScanAgain from './Components/scanAgain';
+import ScanButton from './Components/scanButton';
+
 
 import { createStackNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -48,10 +51,12 @@ const styles = StyleSheet.create({
 const ScanNavigator = createStackNavigator({
   HomeScreen: ScanScreen,
   ProductDetails: ProductDetails,
-  ProductScan:ProductScan
+  ProductScan:ProductScan,
+  ScanAgain:ScanAgain,
+  ScanButton:ScanButton
 },
   {
-    initialRouteName: 'ProductScan',
+    initialRouteName: 'ProductDetails',
   }
 );
 
@@ -68,31 +73,25 @@ export default createMaterialBottomTabNavigator({
   Body: {
     screen: Body_WE,
     navigationOptions: {
-      tabBarLabel: 'Barcode',
+      tabBarLabel: 'Scan',
       tabBarIcon: ({ tintColor }) => (<Icon name="ios-barcode" size={25} color={tintColor} />)
     }
   },
+  
   Help: {
     screen: Help_WE,
     navigationOptions: {
-      tabBarLabel: 'Help',
+      tabBarLabel: 'How it works?',
       tabBarIcon: ({ tintColor }) => (<Icon name="ios-help-circle" size={25} color={tintColor} />)
     }
-  },
-  // ProductScan: {
-  //   screen: ProductDetails,
-  //   navigationOptions: {
-  //     tabBarLabel: 'Product info',
-  //     tabBarIcon: ({ tintColor }) => (<Icon name="ios-help-circle" size={25} color={tintColor} />)
-  //   }
-  // },
+  } 
 
 }, {
     initialRouteName: 'Home',
     activeColor: '#fff',
     inactiveColor: '##BBBBBB',
     activeTintColor: '#7EAD17',
-    tintColor: '#BBBBBB',
+    tintColor: '#fff',
     barStyle: { backgroundColor: '#fff' },
     swipeEnable: false,
     animationEnable: false

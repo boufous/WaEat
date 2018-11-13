@@ -7,14 +7,14 @@ import {
   Image,
   Dimensions,
   View
-  
+
 } from 'react-native';
-import { Button  } from 'native-base';
+import { Button } from 'native-base';
 
 import axios from "axios";
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import ProductScan from "./productScan";
-import  Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee, faSmileBeam } from '@fortawesome/free-solid-svg-icons'
@@ -27,31 +27,47 @@ class ScanScreen extends Component {
       displayproductscore: false,
       displayCamera: true,
       displayproductPic: '../resources/picsHelper/no_image_available_3.jpg',
-      picError: false
+      picError: false,
+      focusedScreen: false,
+      key:1
     }
   }
 
+  componentDidMount() {
+    const { navigation } = this.props;
+    navigation.addListener('willFocus', () =>
+      this.setState({ focusedScreen: true })
+    );
+    navigation.addListener('willBlur', () =>
+      this.setState({ focusedScreen: false })
+    );
+  }
+
+  
 
   onSuccess = (e) => {
     var isnum = /^\d+$/.test(e.data);
     if (isnum) {
       //  getProductInfo(e.data)(res => this.setState({ product: res.data }));
-      // const URL = `https://world.openfoodfacts.org/api/v0/product/${e.data}.json`;
+      const URL = `https://world.openfoodfacts.org/api/v0/product/${e.data}.json`;
 
-      const URL = `https://world.openfoodfacts.org/api/v0/product/5052320289240.json`;
+      //const URL = `https://world.openfoodfacts.org/api/v0/product/5052320289240.json`;
       axios
         .get(URL)
         .then(res => {
           this.setState({ product: res.data.product, displayproductscore: true });
           const { navigate } = this.props.navigation;
-          navigate('ProductScan', this.state.product);
-          })
+          navigate('ProductScan', { product: this.state.product, displayproductscore: this.state.displayproductscore });
+        })
         .catch(err => console.log(err));
 
 
     }
     else {
-      Alert.alert(`This product doen't exist in our database`);
+     // Alert.alert(`Sorry, this product doen't exist in our database`);
+      const { navigate } = this.props.navigation;
+      navigate('ScanAgain');
+      
     }
     this.setState({ displayCamera: false });
   }
@@ -62,7 +78,7 @@ class ScanScreen extends Component {
   }
   handlePress = () => {
     Alert.alert('toto');
-   
+
   }
   render() {
     const { heightw, widthw } = Dimensions.get('window');
@@ -106,50 +122,53 @@ class ScanScreen extends Component {
     //   let scanner;
 
     //   const startScan = () => {
-        
+
     //   };
 
+    let Camera = this.state.focusedScreen?<QRCodeScanner
+    onRead={this.onSuccess}
+    topViewStyle={{}}
+    cameraStyle={{}}
+    key={this.state.key}
+    customMarker={<View style={styles.rectangleContainer}>
+      <View style={styles.rectangle} />
+    </View>}
+    showMarker={true}
+  />: <View></View>
 
-     
-      return (
-        // <View  style={styles.footer_we}><Text>footer</Text>
-        // <Button onPress={this.handlePress}>
-        // <Text>Click Me!</Text>
-        // </Button>
-        
-        // </View>
-         
-         <QRCodeScanner
-          onRead={this.onSuccess}
-          topViewStyle={{}}
-          cameraStyle={{}}
-          customMarker={<View style={styles.rectangleContainer}>
-            <View style={styles.rectangle} />
-          </View>}
-          showMarker={true}
-        />  
-      
-      );
-  //   }
-  //   else 
-  //     return ( <View>
-  //       <QRCodeScanner
-  //         onRead={this.onSuccess}
-  //         topViewStyle={{}}
-  //         cameraStyle={{}}
-  //         customMarker={<View style={styles.rectangleContainer}>
-  //           <View style={styles.rectangle} />
-  //         </View>}
-  //         showMarker={true}
-  //       />
-  //        </View>)
+    return (
+      // <View  style={styles.footer_we}><Text>footer</Text>
+      // <Button onPress={this.handlePress}>
+      // <Text>Click Me!</Text>
+      // </Button>
+
+      // </View>
+<View>{Camera}</View>
+           
       
 
-    
+    );
+    //   }
+    //   else 
+    //     return ( <View>
+    //       <QRCodeScanner
+    //         onRead={this.onSuccess}
+    //         topViewStyle={{}}
+    //         cameraStyle={{}}
+    //         customMarker={<View style={styles.rectangleContainer}>
+    //           <View style={styles.rectangle} />
+    //         </View>}
+    //         showMarker={true}
+    //       />
+    //        </View>)
+
+
+
 
   }
 }
 export default ScanScreen;
+
 
 const styles = StyleSheet.create({
   centerText: {
@@ -195,7 +214,7 @@ const styles = StyleSheet.create({
   },
   picproduct: {
 
-  },  button: {
+  }, button: {
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
     padding: 10

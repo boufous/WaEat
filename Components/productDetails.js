@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
+import { View,StyleSheet } from 'react-native';
+import { Container, Header, Tab, Tabs, TabHeading, Icon,Thumbnail, Text, Button,Footer } from 'native-base';
+import ScanButton from './scanButton';
 class ProductDetails extends Component {
   constructor(props) {
     super(props);
@@ -21,24 +22,27 @@ class ProductDetails extends Component {
     //alert(itemId);
   
     return (
-      <Container>
-        <Header hasTabs />
-        <Tabs>
-          <Tab heading={<TabHeading><Icon name="camera" /><Text>Details</Text></TabHeading>}>
-            <Text>{JSON.stringify(productInfos)}</Text>
+      <Container >
+        {/* <Header hasTabs /> */}                                     
+        <Tabs  >
+         
+        <Tab  heading={<TabHeading><Thumbnail style={{width: 20, height: 20, borderRadius: 30/2}} source={require('../resources/picsHelper/green.png')} /><Text>Good</Text></TabHeading>}>
           </Tab>
-          <Tab heading={<TabHeading><Text>No Icon</Text></TabHeading>}>
+          <Tab heading={<TabHeading><Thumbnail style={{width: 20, height: 20, borderRadius: 30/2}}  source={require('../resources/picsHelper/red.png')} /><Text>Bad</Text></TabHeading>}>
             <Text>tab2</Text>
-
           </Tab>
-          <Tab heading={<TabHeading><Icon name="apps" /></TabHeading>}>
+          <Tab heading={<TabHeading><Icon name="apps" /><Text>More</Text></TabHeading>}>
             <Text>tab3</Text>
-
           </Tab>
         </Tabs>
+        <Footer style={{marginBottom:30, backgroundColor:'#fff'}}><ScanButton navigation={this.props.navigation}/></Footer>
+      
+       
       </Container>
+       
     );
   }
 }
 
 export default ProductDetails;
+

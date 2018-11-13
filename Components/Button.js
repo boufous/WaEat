@@ -1,6 +1,8 @@
 
 
 import React,{Component} from "react";
+import { StyleSheet } from 'react-native';
+
 import {
  
   Text ,
@@ -18,7 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 20
     }
    });
-   class Button extends React.Component {
+   class We_Button extends React.Component {
     render() {
     return (
     <TouchableOpacity style={styles.box}>

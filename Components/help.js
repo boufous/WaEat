@@ -12,9 +12,8 @@ class Help_WE extends Component {
 
   render() {
     return (
-      <View>
+ 
         <Container>
-      
         <Content padder>
           <Card>
             <CardItem header bordered>
@@ -36,21 +35,7 @@ to give the final nutrient profile score.  </Text>
           </Card>
         </Content>
       </Container>
-       <Container>
-       <Header />
-       <Content>
-         <Card>
-           <CardItem>
-             <Icon active name="logo-googleplus" />
-             <Text>Google Plus</Text>
-             <Right>
-               <Icon name="arrow-forward" />
-             </Right>
-            </CardItem>
-          </Card>
-       </Content>
-     </Container>
-     </View>
+ 
     );
   }
 }
@@ -58,13 +43,27 @@ to give the final nutrient profile score.  </Text>
 export default Help_WE;
 
 
+{/* <Container>
+<Header />
+<Content>
+  <Card>
+    <CardItem>
+      <Icon active name="logo-googleplus" />
+      <Text>Google Plus</Text>
+      <Right>
+        <Icon name="arrow-forward" />
+      </Right>
+     </CardItem>
+   </Card>
+</Content>
+</Container> */}
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
+    //backgroundColor: "#F5FCFF",
     textAlign: "center",
   },
   text: {
