@@ -12,7 +12,7 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <View><Body_WE/></View>
+      <ScanScreen />
     );
   }
 }

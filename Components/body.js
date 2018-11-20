@@ -12,7 +12,7 @@ class Body_WE extends Component {
 
   render() {
     return (
-        <View  style={styles.body_we}><ScanScreen /></View>
+        <View  style={styles.body_we}></View>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ImageBackground } from 'react-native';
+import { View, Text,StyleSheet, Image, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -328,27 +328,27 @@ class ScoreEmoji extends Component {
 
         let nutriscoreIcons = this.calcul_nutriscore(energy, sod, saturatedFat, fat, sugar, fibre, prot, fruit, mode);
 
-        if (nutriscoreIcons == "A") return <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor:'#0F9246', width: 200, height: 60 }}><Text style={{
+        if (nutriscoreIcons == "A") return <View style={styles.scoreExcelent}   width={this.props.width} height={this.props.height}><Text style={{
             fontSize: 20,
             fontWeight: 'bold', color: '#ffffff'
         }}>Excelent</Text></View>
         else
-            if (nutriscoreIcons == "B") return <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#7DBB42', width: 200, height: 60 }}><Text style={{
+            if (nutriscoreIcons == "B") return <View style={styles.scoreGood} width={this.props.width} height={this.props.height}><Text style={{
                 fontSize: 20,
                 fontWeight: 'bold', color: '#ffffff'
             }}>Good</Text></View>
             else
-                if (nutriscoreIcons == "C") return <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#FECC09', width: 200, height: 60 }}><Text style={{
+                if (nutriscoreIcons == "C") return <View style={styles.scoreFair} width={this.props.width} height={this.props.height}><Text style={{
                     fontSize: 20,
                     fontWeight: 'bold', color: '#ffffff'
                 }}>Fair</Text></View>
                 else
-                    if (nutriscoreIcons == "D") return <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#F68E1F', width: 200, height: 60 }}><Text style={{
+                    if (nutriscoreIcons == "D") return <View style={styles.scoreBad} width={this.props.width} height={this.props.height}><Text style={{
                         fontSize: 20,
                         fontWeight: 'bold', color: '#ffffff'
                     }}>Bad</Text></View>
                     else
-                        if (nutriscoreIcons == "E") return <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#BC2026', width: 200, height: 60 }}><Text style={{
+                        if (nutriscoreIcons == "E") return <View style={styles.scoreVeryBad} width={this.props.width} height={this.props.height}><Text style={{
                             fontSize: 20,
                             fontWeight: 'bold', color: '#ffffff'
                         }}>Very Bad</Text></View>
@@ -361,9 +361,10 @@ class ScoreEmoji extends Component {
 
     render() {
         return (
-            <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ marginTop:this.props.marginTop , alignItems: 'flex-start', justifyContent: 'flex-start' }}>
 
                 {this.nutriscoreIcons(this.props.energy, this.props.sod, this.props.saturatedFat, this.props.fat, this.props.sugar, this.props.fibre, this.props.prot, this.props.fruit, this.props.mode)}
+                
 
             </View>
         );
@@ -371,3 +372,42 @@ class ScoreEmoji extends Component {
 }
 
 export default ScoreEmoji;
+
+
+
+
+const styles = StyleSheet.create({
+     
+
+    // Content text
+    scoreExcelent: {
+        alignItems: 'center', 
+        justifyContent: 'center',
+        
+        backgroundColor:'#0F9246'
+    },
+    scoreGood: {
+        alignItems: 'center', 
+        justifyContent: 'center',
+    
+        backgroundColor: '#7DBB42'
+    },
+    scoreFair: {
+        alignItems: 'center', 
+        justifyContent: 'center',
+      
+        backgroundColor: '#FECC09'
+    },
+    scoreBad: {
+        alignItems: 'center', 
+        justifyContent: 'center',
+       
+        backgroundColor: '#F68E1F'
+    },
+    scoreVeryBad: {
+        alignItems: 'center', 
+        justifyContent: 'center',
+       
+        backgroundColor: '#BC2026'
+    },
+});

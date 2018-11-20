@@ -9,7 +9,7 @@ import {
   View
 
 } from 'react-native';
-import { Button } from 'native-base';
+import { Button,Thumbnail } from 'native-base';
 
 import axios from "axios";
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -29,9 +29,21 @@ class ScanScreen extends Component {
       displayproductPic: '../resources/picsHelper/no_image_available_3.jpg',
       picError: false,
       focusedScreen: false,
-      key:1
+      key: 1
     }
   }
+
+
+  static navigationOptions = {
+    title: 'Lets start!',
+    headerStyle: {
+        backgroundColor: '#7EAD17',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+        fontWeight: 'bold',
+    },
+};
 
   componentDidMount() {
     const { navigation } = this.props;
@@ -43,7 +55,7 @@ class ScanScreen extends Component {
     );
   }
 
-  
+
 
   onSuccess = (e) => {
     var isnum = /^\d+$/.test(e.data);
@@ -64,10 +76,10 @@ class ScanScreen extends Component {
 
     }
     else {
-     // Alert.alert(`Sorry, this product doen't exist in our database`);
+      // Alert.alert(`Sorry, this product doen't exist in our database`);
       const { navigate } = this.props.navigation;
       navigate('ScanAgain');
-      
+
     }
     this.setState({ displayCamera: false });
   }
@@ -76,10 +88,8 @@ class ScanScreen extends Component {
     val = (val != '' || val != null) ? val : '';
     return val;
   }
-  handlePress = () => {
-    Alert.alert('toto');
 
-  }
+
   render() {
     const { heightw, widthw } = Dimensions.get('window');
 
@@ -125,16 +135,19 @@ class ScanScreen extends Component {
 
     //   };
 
-    let Camera = this.state.focusedScreen?<QRCodeScanner
-    onRead={this.onSuccess}
-    topViewStyle={{}}
-    cameraStyle={{}}
-    key={this.state.key}
-    customMarker={<View style={styles.rectangleContainer}>
-      <View style={styles.rectangle} />
-    </View>}
-    showMarker={true}
-  />: <View></View>
+    let Camera = this.state.focusedScreen ? <QRCodeScanner
+      onRead={this.onSuccess}
+      topViewStyle={{}}
+      cameraStyle={{}}
+      key={this.state.key}
+      customMarker={<View style={styles.rectangleContainer}>
+        <View style={styles.rectangle} />
+      </View>}
+      showMarker={true}
+
+
+
+    /> : <View></View>
 
     return (
       // <View  style={styles.footer_we}><Text>footer</Text>
@@ -143,10 +156,53 @@ class ScanScreen extends Component {
       // </Button>
 
       // </View>
-<View>{Camera}</View>
-           
-      
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>{Camera}</View>
+        <View style={{ flexDirection: 'row',justifyContent:'center', alignItems:'center', backgroundColor: '#7EAD17', height: 90 }}>
+        <Thumbnail square style={{ height: 90, width: 140 }}  source={require('../resources/logos/logo.png')}></Thumbnail>
 
+          {/* <TouchableOpacity
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#7EAD17',
+              borderRadius: 0,
+            }}
+            activeOpacity={1}
+          >
+      
+        <Image style={{ height: 50, width: 50 , alignSelf: 'center',borderWidth:1, borderColor:'#fff',}}  source={require('../resources/picsHelper/barcode.jpg')}></Image>
+        <Text style={{color:'#fff', fontSize:18, fontWeight: 'bold',}}>Scan</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#7EAD17',
+              borderRadius: 0,
+            }}
+            activeOpacity={1}
+          >
+            <Text> 2- Check</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#7EAD17',
+              borderRadius: 0,
+            }}
+            activeOpacity={1}
+          >
+            <Text> 2- Check</Text>
+          </TouchableOpacity> */}
+
+        </View>
+
+      </View>
     );
     //   }
     //   else 
@@ -239,3 +295,7 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+
+
+

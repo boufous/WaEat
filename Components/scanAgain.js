@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, View, ActivityIndicator, Animated, Easing } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Left, Body } from 'native-base';
+import ScanButton from './scanButton';
+
 class ScanAgain extends Component {
 
     constructor(props) {
         super(props);
     }
 
+
     componentWillMount() {
         this.animatedValue = new Animated.Value(1);
     }
 
     componentDidMount() {
- 
+
         Animated.timing(this.animatedValue, {
 
             toValue: 400,
@@ -22,7 +25,17 @@ class ScanAgain extends Component {
         }).start()
     }
 
- 
+
+    static navigationOptions = {
+        title: 'Scan Again',
+        headerStyle: {
+            backgroundColor: '#7EAD17',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+    };
 
     render() {
 
@@ -34,31 +47,34 @@ class ScanAgain extends Component {
         const { navigate } = this.props.navigation;
 
         return (
-                <View style={styles.container}>
-                    <Animated.View style={[styles.box, animatedStyle]} >
-                        <Container>
-                            <View style={styles.container}>
-                                <View elevation={5} style={styles.buttonContainer}>
-                                <Thumbnail style={{ height: 150, width: 150 }}  source={require('../resources/picsHelper/no_image_available_3.jpg')}></Thumbnail>
-                                <Text>Sorry, this item doesn't not exist yet in our database.</Text>
-                                </View>
-                                <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', }}>
-                                    <Button bordered success onPress={() =>navigate('HomeScreen')}>
-                                        <Text>Scan new Item</Text>
-                                    </Button>
-                                </View>
+            <View style={styles.container}>
+                <Animated.View style={[styles.box, animatedStyle]} >
+                    <Container>
+                        <View style={styles.container}>
+                            <View elevation={5} style={styles.buttonContainer}>
+                                <Thumbnail style={{ height: 150, width: 150 }} source={require('../resources/picsHelper/no_image_available_3.jpg')}></Thumbnail>
+                                <Text numberOfLines={2} style={{ textAlign: 'center', marginTop: 6, fontSize: 20 }}>>Sorry, this item doesn't not exist yet in our database.</Text>
                             </View>
-                        </Container>
-                    </Animated.View>
-                </View>
-            );
-       
+                            <View style={{ flex: 0, alignItems: 'flex-end', justifyContent: 'flex-end', backgroundColor: '#fff', }}>
+                                {/* <Button bordered success onPress={() =>navigate('HomeScreen')}>
+                                        <Text>Scan new Item</Text>
+                                    </Button> */}
+                                <ScanButton navigation={this.props.navigation} />
+
+                            </View>
+                        </View>
+                    </Container>
+                </Animated.View>
+
+            </View>
+        );
+
     }
 }
 
 export default ScanAgain;
 
- 
+
 
 
 

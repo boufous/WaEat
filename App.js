@@ -8,24 +8,18 @@
 
 import React, { Component } from 'react';
 import { StatusBar, Image, Platform, StyleSheet, View, Text } from 'react-native';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faGhost } from '@fortawesome/free-solid-svg-icons';
-import Footer_WE from './Components/footer';
-import Body_WE from './Components/body';
-import Header_WE from './Components/header';
-import Help_WE from './Components/help';
 import ProductScan from './Components/productScan';
-import HomeScreen from './Components/homeScreen';
 import ScanScreen from './Components/barCode';
 import ProductDetails from './Components/productDetails';
 import ScanAgain from './Components/scanAgain';
 import ScanButton from './Components/scanButton';
-
-
+import LogoTitle from './Components/logoTitle';
+import Help_WE from './Components/help';
 import { createStackNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-//import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Thumbnail} from 'native-base';
+
 
 type Props = {};
 class App extends Component<Props> {
@@ -48,19 +42,37 @@ const styles = StyleSheet.create({
 });
 
 
+
 const ScanNavigator = createStackNavigator({
   HomeScreen: ScanScreen,
   ProductDetails: ProductDetails,
-  ProductScan:ProductScan,
-  ScanAgain:ScanAgain,
-  ScanButton:ScanButton
+  ProductScan: ProductScan,
+  ScanAgain: ScanAgain,
+  ScanButton: ScanButton
 },
   {
-    initialRouteName: 'ProductDetails',
+    initialRouteName: 'HomeScreen',
+    tintColor: '#fff',
+    activeColor: '#fff',
+    inactiveColor: '#dcdde1',
+    activeTintColor: '#7EAD17',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#7EAD17',
+        color:'#fff'
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+     
+
+    
+
+    },
+
+
   }
 );
-
-
 export default createMaterialBottomTabNavigator({
 
   Home: {
@@ -70,31 +82,42 @@ export default createMaterialBottomTabNavigator({
       tabBarIcon: ({ tintColor }) => (<Icon name="ios-home" size={25} color={tintColor} />)
     }
   },
-  Body: {
-    screen: Body_WE,
+  Scan: {
+    screen: ScanNavigator,
     navigationOptions: {
       tabBarLabel: 'Scan',
-      tabBarIcon: ({ tintColor }) => (<Icon name="ios-barcode" size={25} color={tintColor} />)
+      tabBarIcon: ({ tintColor }) => (<Thumbnail square style={{borderColor:'#fff',borderWidth:1, height: 30, width:40 }}  color={tintColor} source={require('./resources/picsHelper/ScanIcon.png')}></Thumbnail>)
     }
   },
-  
   Help: {
     screen: Help_WE,
     navigationOptions: {
       tabBarLabel: 'How it works?',
       tabBarIcon: ({ tintColor }) => (<Icon name="ios-help-circle" size={25} color={tintColor} />)
     }
-  } 
+  }
 
 }, {
     initialRouteName: 'Home',
     activeColor: '#fff',
-    inactiveColor: '##BBBBBB',
+    inactiveColor: '#dcdde1',
     activeTintColor: '#7EAD17',
     tintColor: '#fff',
     barStyle: { backgroundColor: '#fff' },
     swipeEnable: false,
-    animationEnable: false
+    animationEnable: false,
+    headerStyle: {
+      backgroundColor: '#7EAD17',
+    },
+    headerTintColor: '#fff',
+    headerTitle: <View><StatusBar
+    backgroundColor="#7EAD17"
+    barStyle="light-content"
+  /><LogoTitle  /></View>,
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+
   });
 
 

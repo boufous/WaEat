@@ -14,9 +14,9 @@ class ScanButton extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-
  <TouchableOpacity
  style={{
+     position:'absolute',
      borderWidth:1,
      borderColor:'#7EAD17',
      alignItems:'center',
@@ -30,8 +30,8 @@ class ScanButton extends Component {
             width: 1,
             height: 1
         },
-        shadowOpacity: 1, // IOS
-        shadowRadius: 1, //IOS
+        shadowOpacity: 2, // IOS
+        shadowRadius: 2, //IOS
         elevation: 10, // Android
    }}
    onPress={() =>navigate('HomeScreen')}>
